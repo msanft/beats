@@ -1,0 +1,18 @@
+type: winlog
+event_logs:
+{{ range $i, $event_log := .event_logs }}
+  - id: $event_log.id
+    name: $event_log.name
+    event_id: $event_log.event_id
+    provider:
+{{ range $j, $provider := $event_log.provider}}
+      - $provider
+{{ end }}
+    batch_read_size: $event_log.batch_read_size
+    ignore_older: $event_log.ignore_older
+    forwarded: $event_log.forwarded
+    language: $event_log.language
+    include_xml: $event_log.include_xml
+    tags: {{$event_log.tags | tojson}}
+    api: $event_log.api
+{{ end }}
